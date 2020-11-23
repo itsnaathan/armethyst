@@ -125,7 +125,7 @@ int BasicCPU::ID()
 		case 0x1A000000: //x == 1
 			// x101 Data Processing -- Register on page C4-278
 		default:
-		return 1; // instrução não implementada
+		return 1;
 	}
 	return 1;
 };
@@ -242,19 +242,16 @@ int BasicCPU::decodeDataProcReg() {
 		
 		case 0x0B000000:
 			
-			if (IR & 0x00400000) return 1; // sh = 1 não implementado
+			if (IR & 0x00400000) return 1;
 			
 			// ler A e B
 			A = getW(1); 
 	
 			B = getW(0);
 			
-			// ATIVIDADE FUTURA: implementar informações para os estágios
-			// MEM e WB.
-
 			return 0;
-		default:
-			// instrução não implementada
+		
+		default:	
 			
 			return 1;
 	}
