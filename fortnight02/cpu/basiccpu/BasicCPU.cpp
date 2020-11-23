@@ -118,11 +118,16 @@ int BasicCPU::ID()
 			fpOP = false;
 			return decodeDataProcImm();
 			break;
-		// case TODO
-		// x101 Data Processing -- Register on page C4-278
+		case 0x0A000000: //x == 0
+			fpOP = false;
+			return decodeDataProcReg();
+			break;
+		case 0x1A000000: //x == 1
+			// x101 Data Processing -- Register on page C4-278
 		default:
-			return 1; // instrução não implementada
+		return 1; // instrução não implementada
 	}
+	return 1;
 };
 
 /**
@@ -232,7 +237,27 @@ int BasicCPU::decodeDataProcReg() {
 	//		de txt_isummation.o.txt.
 	
 	
-	// instrução não implementada
+	switch (IR & 0x7F200000)
+	{
+		
+		case 0x0B000000:
+			
+			if (IR & 0x00400000) return 1; // sh = 1 não implementado
+			
+			// ler A e B
+			A = getW(1); 
+	
+			B = getW(0);
+			
+			// ATIVIDADE FUTURA: implementar informações para os estágios
+			// MEM e WB.
+
+			return 0;
+		default:
+			// instrução não implementada
+			
+			return 1;
+	}
 	return 1;
 }
 
