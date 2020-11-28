@@ -118,11 +118,28 @@ int BasicCPU::ID()
 			fpOP = false;
 			return decodeDataProcImm();
 			break;
+		
 		// case TODO
 		// x101 Data Processing -- Register on page C4-278
+		case 0x1A000000: //x == 1
+    	case 0x0A000000: //x == 0
+        	fpOP = false;
+        	return decodeDataProcReg();
+        	break;
+		
+		case 0x08000000: // x = 0, x = 0
+    	case 0x0C000000: // x = 0, x = 1
+    	case 0x1C000000: // x = 1, x = 1
+    	case 0x18000000: // x = 1, x = 0 
+        	fpOP = false;
+        	return decodeLoadStore();
+        	break;
+		
 		default:
 			return 1; // instrução não implementada
 	}
+
+	return 1;
 };
 
 /**
@@ -278,7 +295,7 @@ int BasicCPU::EXI()
 			// ATIVIDADE FUTURA: setar flags NCZF
 			return 0;
 		case ALUctrlFlag::ADD:
-			ALUout = A + B;
+			ALUout = B + A;
 			return 0;
 		default:
 			// Controle não implementado
